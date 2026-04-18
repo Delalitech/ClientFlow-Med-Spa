@@ -4,262 +4,270 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClientFlow Med Spa</title>
-  <meta
-    name="description"
-    content="Turn missed inquiries into booked appointments automatically."
-  />
+  <meta name="description" content="Turn missed inquiries into booked appointments automatically with a polished, modern client journey for med spas." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     :root {
-      --bg: #0a0a0a;
-      --bg-soft: #111111;
-      --panel: rgba(255,255,255,0.04);
-      --panel-strong: rgba(255,255,255,0.06);
-      --text: #f5f1ea;
-      --muted: #c6bfb3;
-      --line: rgba(255,255,255,0.10);
-      --gold: #d9b36c;
-      --gold-soft: rgba(217,179,108,0.16);
-      --white: #ffffff;
-      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --bg: #08090b;
+      --bg-2: #0d1014;
+      --panel: rgba(255,255,255,0.045);
+      --panel-2: rgba(255,255,255,0.06);
+      --line: rgba(255,255,255,0.1);
+      --text: #f4f6f8;
+      --muted: #b8c0c8;
+      --muted-2: #93a0ad;
+      --accent: #d1b079;
+      --accent-2: #f2ddbd;
+      --success: #9fd4b3;
+      --shadow: 0 24px 80px rgba(0,0,0,0.45);
       --radius: 24px;
       --radius-sm: 18px;
       --max: 1180px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: "Inter", sans-serif;
+      font-family: "Manrope", sans-serif;
       background:
-        radial-gradient(circle at top, rgba(217,179,108,0.10), transparent 28%),
-        linear-gradient(180deg, #090909 0%, #0c0c0c 100%);
+        radial-gradient(circle at top left, rgba(209,176,121,0.12), transparent 25%),
+        radial-gradient(circle at top right, rgba(255,255,255,0.05), transparent 18%),
+        linear-gradient(180deg, #070809 0%, #0b0f13 100%);
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .container {
-      width: min(100% - 40px, var(--max));
-      margin: 0 auto;
-    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(100% - 40px, var(--max)); margin: 0 auto; }
 
     .nav {
       position: sticky;
       top: 0;
       z-index: 1000;
-      backdrop-filter: blur(14px);
-      background: rgba(10,10,10,0.78);
+      background: rgba(8,9,11,0.82);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-
     .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       min-height: 78px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       gap: 20px;
     }
-
     .brand {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.9rem;
-      letter-spacing: 0.02em;
-      color: var(--white);
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      font-size: 1.15rem;
     }
-
-    .brand span {
-      color: var(--gold);
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      box-shadow: 0 0 28px rgba(209,176,121,0.35);
     }
-
+    .brand span:last-child { color: var(--muted); font-weight: 700; }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 26px;
       color: var(--muted);
       font-size: 0.95rem;
     }
+    .nav-links a:hover { color: #fff; }
 
-    .nav-links a:hover {
-      color: var(--white);
-    }
-
-    .nav-cta {
+    .btn, button.btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
       display: inline-flex;
-      align-items: center;
       justify-content: center;
-      padding: 12px 18px;
+      align-items: center;
+      gap: 10px;
+      min-height: 54px;
+      padding: 0 22px;
       border-radius: 999px;
-      border: 1px solid rgba(217,179,108,0.35);
-      background: linear-gradient(180deg, rgba(217,179,108,0.18), rgba(217,179,108,0.08));
-      color: var(--white);
-      font-size: 0.95rem;
-      transition: 0.25s ease;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
     }
-
-    .nav-cta:hover,
-    .btn-primary:hover,
-    .btn-secondary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 30px rgba(217,179,108,0.14);
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      color: #101114;
+      background: linear-gradient(180deg, #e1c492 0%, #cfa76c 100%);
+      box-shadow: 0 12px 30px rgba(209,176,121,0.18);
     }
-
-    .hero {
-      padding: 92px 0 72px;
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.12);
     }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.2); }
 
+    .hero { padding: 92px 0 70px; }
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 42px;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 34px;
       align-items: center;
     }
-
     .eyebrow {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
       font-size: 0.82rem;
-      letter-spacing: 0.18em;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--gold);
       margin-bottom: 18px;
     }
-
-    h1, h2 {
-      font-family: "Cormorant Garamond", serif;
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent));
+    }
+    h1, h2, h3 {
+      letter-spacing: -0.04em;
       line-height: 1.02;
-      letter-spacing: -0.02em;
     }
-
+    h1, h2 {
+      font-family: "Playfair Display", serif;
+    }
     h1 {
-      font-size: clamp(3rem, 7vw, 5.8rem);
+      font-size: clamp(3.2rem, 7vw, 5.6rem);
+      max-width: 10.5ch;
       margin-bottom: 18px;
-      max-width: 10ch;
     }
-
-    .hero p {
-      max-width: 640px;
-      font-size: 1.08rem;
+    .hero-copy p {
+      max-width: 650px;
       color: var(--muted);
-      margin-bottom: 30px;
+      font-size: 1.08rem;
+      margin-bottom: 28px;
     }
-
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
-      margin-bottom: 30px;
+      margin-bottom: 26px;
     }
-
-    .btn-primary,
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 54px;
-      padding: 0 22px;
-      border-radius: 999px;
-      font-size: 0.96rem;
-      transition: 0.25s ease;
-    }
-
-    .btn-primary {
-      background: linear-gradient(180deg, #e2bf81 0%, #c99d56 100%);
-      color: #121212;
-      font-weight: 600;
-      border: none;
-    }
-
-    .btn-secondary {
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .micro-proof {
+    .proof-strip {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px 18px;
+      gap: 12px 22px;
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.95rem;
     }
-
-    .micro-proof span {
+    .proof-strip span {
       position: relative;
-      padding-left: 18px;
+      padding-left: 16px;
     }
-
-    .micro-proof span::before {
+    .proof-strip span::before {
       content: "";
       position: absolute;
       left: 0;
-      top: 0.55em;
+      top: .7em;
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--gold);
+      background: var(--accent);
       transform: translateY(-50%);
     }
 
-    .phone-card {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    .hero-visual-stack {
+      display: grid;
+      gap: 16px;
+    }
+    .hero-visual {
+      position: relative;
+      border-radius: 30px;
+      overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 34px;
+      min-height: 240px;
+      box-shadow: var(--shadow);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015)),
+        radial-gradient(circle at top right, rgba(209,176,121,0.25), transparent 30%),
+        linear-gradient(180deg, #12161b 0%, #0f1318 100%);
+    }
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.4)),
+        url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1400&q=80') center/cover;
+      opacity: 0.35;
+      mix-blend-mode: screen;
+    }
+    .hero-visual-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      padding: 24px;
+    }
+    .hero-tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #e8edf2;
+      font-size: 0.83rem;
+      margin-bottom: 12px;
+    }
+    .hero-visual h3 {
+      font-size: 1.55rem;
+      max-width: 14ch;
+      margin-bottom: 8px;
+    }
+    .hero-visual p {
+      color: #d1d9e0;
+      max-width: 34ch;
+      font-size: 0.95rem;
+    }
+
+    .phone-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 30px;
       padding: 18px;
       box-shadow: var(--shadow);
-      max-width: 390px;
-      margin-left: auto;
     }
-
     .phone {
-      background: linear-gradient(180deg, #111111, #171717);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 28px;
-      padding: 18px 14px 16px;
-      min-height: 640px;
-      position: relative;
-      overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(180deg, #101317 0%, #151a20 100%);
+      padding: 16px 14px;
     }
-
     .phone-top {
       text-align: center;
+      color: #d7dde4;
       font-size: 0.8rem;
-      color: #d9d2c8;
-      margin-bottom: 18px;
-      opacity: 0.9;
+      margin-bottom: 14px;
     }
-
     .chat-date {
       text-align: center;
       font-size: 0.72rem;
-      color: #9f978b;
-      margin-bottom: 12px;
-      letter-spacing: 0.08em;
+      color: var(--muted-2);
+      letter-spacing: .16em;
       text-transform: uppercase;
+      margin-bottom: 14px;
     }
-
     .bubble {
       max-width: 82%;
       padding: 12px 14px;
@@ -267,330 +275,314 @@
       margin-bottom: 10px;
       font-size: 0.92rem;
       line-height: 1.45;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.14);
     }
-
     .bubble.left {
-      background: #1c1c1c;
-      color: #f4eee4;
+      background: #1a2027;
+      color: #eef3f7;
       border-top-left-radius: 8px;
     }
-
     .bubble.right {
       margin-left: auto;
-      background: linear-gradient(180deg, #d8b069, #bf9350);
-      color: #171717;
+      background: linear-gradient(180deg, #e0c08f, #cda86d);
+      color: #111316;
       border-top-right-radius: 8px;
-      font-weight: 500;
+      font-weight: 700;
     }
 
-    .section {
-      padding: 84px 0;
-    }
-
+    .section { padding: 82px 0; }
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: end;
-      gap: 24px;
-      margin-bottom: 34px;
+      gap: 22px;
+      margin-bottom: 30px;
     }
-
     .section-header h2 {
-      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-size: clamp(2.35rem, 5vw, 4.2rem);
     }
-
     .section-header p {
       max-width: 520px;
       color: var(--muted);
     }
 
-    .benefits {
+    .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
-
-    .benefit {
-      background: var(--panel);
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 28px;
-      min-height: 190px;
       box-shadow: var(--shadow);
     }
-
-    .benefit-number {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 2.2rem;
-      color: var(--gold);
-      margin-bottom: 14px;
+    .number {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
     }
-
-    .benefit h3 {
-      font-size: 1.08rem;
+    .card h3 {
+      font-size: 1.12rem;
       margin-bottom: 10px;
-      color: var(--white);
-      font-weight: 600;
     }
-
-    .benefit p {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
+    .card p { color: var(--muted); }
 
     .journey {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 22px;
+      gap: 18px;
     }
-
-    .journey-card {
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      padding: 30px;
-      box-shadow: var(--shadow);
-    }
-
     .journey-label {
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
+      color: var(--accent);
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
+      letter-spacing: .16em;
+      font-size: 0.76rem;
+      margin-bottom: 12px;
     }
-
-    .journey-card h3 {
-      font-family: "Cormorant Garamond", serif;
+    .journey .card h3 {
+      font-family: "Playfair Display", serif;
       font-size: 2rem;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
-
-    .journey-card ul {
-      list-style: none;
-      display: grid;
-      gap: 12px;
-      color: var(--muted);
-    }
-
-    .journey-card li {
-      padding-left: 18px;
+    .list { list-style: none; display: grid; gap: 12px; }
+    .list li {
       position: relative;
+      color: var(--muted);
+      padding-left: 18px;
     }
-
-    .journey-card li::before {
+    .list li::before {
       content: "";
       position: absolute;
       left: 0;
-      top: 0.7em;
+      top: .68em;
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--gold);
+      background: var(--accent);
       transform: translateY(-50%);
     }
 
-    .steps {
+    .testimonials {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 18px;
     }
-
-    .step {
-      padding: 28px;
-      border-radius: var(--radius);
-      background: var(--panel);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .step-index {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 2.1rem;
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
-
-    .step h3 {
-      margin-bottom: 10px;
-      font-size: 1.08rem;
-      font-weight: 600;
-      color: var(--white);
-    }
-
-    .step p {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .final-cta {
-      padding-bottom: 110px;
-    }
-
-    .cta-panel {
-      border-radius: 32px;
-      border: 1px solid rgba(217,179,108,0.22);
-      background:
-        radial-gradient(circle at top left, rgba(217,179,108,0.12), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-      padding: 54px 34px;
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-
-    .cta-panel h2 {
-      font-size: clamp(2.4rem, 5vw, 4.2rem);
+    .testimonial-text {
+      font-family: "Playfair Display", serif;
+      font-size: 1.55rem;
+      line-height: 1.3;
       margin-bottom: 16px;
     }
-
-    .cta-panel p {
-      max-width: 700px;
-      margin: 0 auto 26px;
-      color: var(--muted);
-      font-size: 1.03rem;
+    .testimonial-author {
+      color: var(--accent);
+      font-size: 0.94rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .testimonial-note {
+      color: var(--muted-2);
+      font-size: 0.82rem;
+      margin-top: 10px;
     }
 
+    .cta-wrap {
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .cta-panel {
+      border-radius: 30px;
+      border: 1px solid rgba(209,176,121,0.22);
+      background:
+        radial-gradient(circle at top left, rgba(209,176,121,0.16), transparent 25%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+    .cta-panel h2 {
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      margin-bottom: 14px;
+    }
+    .cta-panel p {
+      color: var(--muted);
+      max-width: 48ch;
+      margin-bottom: 22px;
+    }
+    .cta-points {
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .cta-points div {
+      position: relative;
+      padding-left: 18px;
+    }
+    .cta-points div::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .7em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translateY(-50%);
+    }
     .cta-actions {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
       gap: 14px;
       margin-bottom: 16px;
     }
+    .small-note { color: var(--muted); font-size: 0.95rem; }
+    .small-note a { color: var(--accent); }
 
-    .small-note {
+    .form-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .form-card h3 {
+      font-size: 1.45rem;
+      margin-bottom: 8px;
+    }
+    .form-card p {
       color: var(--muted);
-      font-size: 0.95rem;
+      margin-bottom: 18px;
     }
-
-    .small-note a {
-      color: var(--gold);
+    form { display: grid; gap: 12px; }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    input, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 15px;
+      font: inherit;
+      outline: none;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    input:focus, textarea:focus {
+      border-color: rgba(209,176,121,0.5);
+      background: rgba(255,255,255,0.06);
+    }
+    textarea { min-height: 112px; resize: vertical; }
+    .status {
+      min-height: 24px;
+      font-size: 0.94rem;
+      color: var(--muted);
+    }
+    .status.success { color: var(--success); }
+    .status.error { color: #ffb3b3; }
 
     footer {
       padding: 26px 0 42px;
       border-top: 1px solid rgba(255,255,255,0.06);
-      color: #ab9f90;
+      color: var(--muted-2);
       font-size: 0.92rem;
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1040px) {
       .hero-grid,
-      .journey {
-        grid-template-columns: 1fr;
-      }
-
-      .phone-card {
-        margin: 0;
-        max-width: 100%;
-      }
-
-      .benefits,
-      .steps {
+      .cta-wrap,
+      .journey,
+      .testimonials,
+      .grid-3 {
         grid-template-columns: 1fr;
       }
     }
-
     @media (max-width: 760px) {
-      .nav-inner {
-        min-height: 72px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding-top: 72px;
-      }
-
-      .section {
-        padding: 68px 0;
-      }
-
-      .section-header {
-        display: block;
-      }
-
-      .section-header p {
-        margin-top: 14px;
-      }
-
-      .cta-panel {
-        padding: 40px 22px;
-      }
-
-      .phone {
-        min-height: auto;
-      }
+      .nav-links { display: none; }
+      .hero { padding-top: 72px; }
+      .section { padding: 68px 0; }
+      .section-header { display: block; }
+      .section-header p { margin-top: 14px; }
+      .field-row { grid-template-columns: 1fr; }
+      .cta-panel, .form-card, .card { padding: 24px; }
+      h1 { max-width: 12ch; }
     }
   </style>
 </head>
 <body>
   <header class="nav">
     <div class="container nav-inner">
-      <a href="#" class="brand">ClientFlow <span>Med Spa</span></a>
+      <a href="#" class="brand">
+        <span class="brand-mark"></span>
+        <span>ClientFlow</span>
+        <span>Med Spa</span>
+      </a>
 
       <nav class="nav-links">
         <a href="#benefits">Benefits</a>
-        <a href="#journey">Experience</a>
-        <a href="#how">How It Works</a>
+        <a href="#experience">Experience</a>
+        <a href="#proof">Proof</a>
+        <a href="#book">Book a Private Demo</a>
       </nav>
 
-      <a href="https://calendly.com/your-calendly-link" class="nav-cta" target="_blank" rel="noopener">
-        Book a Private Demo
-      </a>
+      <a class="btn btn-secondary" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener">Book a Private Demo</a>
     </div>
   </header>
 
   <main>
     <section class="hero">
       <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">Luxury booking automation for med spas</div>
+        <div class="hero-copy">
+          <div class="eyebrow">Modern luxury booking flow for med spas</div>
           <h1>Turn missed inquiries into booked appointments.</h1>
           <p>
-            A more polished client journey for med spas that want faster follow-up,
-            fewer lost leads, and more consistent bookings without adding pressure
-            to the front desk.
+            A premium follow-up experience for med spas that want faster response times,
+            fewer lost leads, and more consistent bookings without adding pressure to the front desk.
           </p>
 
           <div class="hero-actions">
-            <a href="https://calendly.com/your-calendly-link" class="btn-primary" target="_blank" rel="noopener">
-              Book a Private Demo
-            </a>
-            <a href="#journey" class="btn-secondary">
-              Preview the Client Journey
-            </a>
+            <a class="btn btn-primary" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener">Book a Private Demo</a>
+            <a class="btn btn-secondary" href="#experience">See the Client Journey</a>
           </div>
 
-          <div class="micro-proof">
-            <span>Instant lead follow-up</span>
-            <span>Fewer missed opportunities</span>
-            <span>A more premium client experience</span>
+          <div class="proof-strip">
+            <span>Faster lead response</span>
+            <span>More polished client communication</span>
+            <span>A premium booking experience</span>
           </div>
         </div>
 
-        <div class="phone-card">
-          <div class="phone">
-            <div class="phone-top">Messages</div>
-            <div class="chat-date">Today</div>
+        <div class="hero-visual-stack">
+          <div class="hero-visual">
+            <div class="hero-visual-content">
+              <div class="hero-tag">Client experience, elevated</div>
+              <h3>Luxury feel. Serious business result.</h3>
+              <p>Designed to feel refined enough for high-end practices and clear enough for growing med spas.</p>
+            </div>
+          </div>
 
-            <div class="bubble left">
-              Hi Sarah, thank you for reaching out about lip filler.
-            </div>
-            <div class="bubble left">
-              We have an opening tomorrow at 3:00 PM. Would you like me to reserve it for you?
-            </div>
-            <div class="bubble right">
-              Yes, please.
-            </div>
-            <div class="bubble left">
-              Perfect. You're booked. We’ll send your confirmation and reminder shortly.
-            </div>
-            <div class="bubble left">
-              If you have any questions before your appointment, just reply here.
+          <div class="phone-card">
+            <div class="phone">
+              <div class="phone-top">Messages</div>
+              <div class="chat-date">Today</div>
+              <div class="bubble left">Hi Sarah, thank you for reaching out about Botox.</div>
+              <div class="bubble left">We have an opening tomorrow at 3:00 PM. Would you like me to reserve it for you?</div>
+              <div class="bubble right">Yes, please.</div>
+              <div class="bubble left">Perfect. You’re booked. We’ll send your confirmation and reminder shortly.</div>
+              <div class="bubble left">If you have any questions before your appointment, just reply here.</div>
             </div>
           </div>
         </div>
@@ -602,67 +594,55 @@
         <div class="section-header">
           <h2>What it changes.</h2>
           <p>
-            The difference is not just automation. It is a smoother, faster, more
-            premium experience from first inquiry to confirmed appointment.
+            The value is not just automation. It is a smoother, faster, more premium path from first inquiry to confirmed appointment.
           </p>
         </div>
 
-        <div class="benefits">
-          <div class="benefit">
-            <div class="benefit-number">01</div>
+        <div class="grid-3">
+          <div class="card">
+            <div class="number">01</div>
             <h3>Leads are answered faster</h3>
-            <p>
-              Missed calls and slow replies stop quietly costing you appointments.
-            </p>
+            <p>Missed calls and delayed replies stop quietly costing you consultations.</p>
           </div>
-
-          <div class="benefit">
-            <div class="benefit-number">02</div>
-            <h3>Booking feels effortless</h3>
-            <p>
-              Clients move from interest to action with less friction and less delay.
-            </p>
+          <div class="card">
+            <div class="number">02</div>
+            <h3>Booking feels easier</h3>
+            <p>Interested clients are guided toward the next step with less friction and less delay.</p>
           </div>
-
-          <div class="benefit">
-            <div class="benefit-number">03</div>
-            <h3>Your brand feels elevated</h3>
-            <p>
-              Every touchpoint feels more polished, responsive, and aligned with a premium med spa.
-            </p>
+          <div class="card">
+            <div class="number">03</div>
+            <h3>Your brand feels more elevated</h3>
+            <p>Every touchpoint feels more polished, responsive, and aligned with a premium med spa experience.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="journey">
+    <section class="section" id="experience">
       <div class="container">
         <div class="section-header">
           <h2>The experience.</h2>
-          <p>
-            Show your client what they care about most: what happens after someone shows interest.
-          </p>
+          <p>What matters most is what happens after a client shows interest.</p>
         </div>
 
         <div class="journey">
-          <div class="journey-card">
+          <div class="card">
             <div class="journey-label">Without ClientFlow</div>
             <h3>Interest fades.</h3>
-            <ul>
+            <ul class="list">
               <li>A call is missed.</li>
-              <li>A form sits unanswered.</li>
+              <li>A web inquiry sits unanswered.</li>
               <li>Follow-up happens late or not at all.</li>
               <li>The client moves on.</li>
             </ul>
           </div>
-
-          <div class="journey-card">
+          <div class="card">
             <div class="journey-label">With ClientFlow</div>
             <h3>Interest becomes a booking.</h3>
-            <ul>
+            <ul class="list">
               <li>The inquiry is acknowledged immediately.</li>
               <li>The client is guided toward the next step.</li>
-              <li>Appointment reminders reduce drop-off.</li>
+              <li>Reminders reduce drop-off and no-shows.</li>
               <li>The journey feels seamless and premium.</li>
             </ul>
           </div>
@@ -670,73 +650,136 @@
       </div>
     </section>
 
-    <section class="section" id="how">
+    <section class="section" id="proof">
       <div class="container">
         <div class="section-header">
-          <h2>How it works.</h2>
-          <p>
-            Keep this simple on the call. The easier it feels, the more valuable it feels.
-          </p>
+          <h2>What it feels like.</h2>
+          <p>A better client journey does not just improve follow-up. It changes how your brand is experienced.</p>
         </div>
 
-        <div class="steps">
-          <div class="step">
-            <div class="step-index">01</div>
-            <h3>A lead reaches out</h3>
-            <p>
-              A client calls, messages, or submits an inquiry through your site or booking flow.
-            </p>
+        <div class="testimonials">
+          <div class="card">
+            <div class="testimonial-text">“The biggest difference for us was speed. Clients were hearing back faster, the experience felt more polished, and booking became much more consistent.”</div>
+            <div class="testimonial-author">— Med Spa Owner</div>
           </div>
-
-          <div class="step">
-            <div class="step-index">02</div>
-            <h3>ClientFlow follows up</h3>
-            <p>
-              The response happens quickly, professionally, and without extra front desk effort.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="step-index">03</div>
-            <h3>The appointment gets booked</h3>
-            <p>
-              More inquiries turn into consultations, confirmations, and repeat opportunities.
-            </p>
+          <div class="card">
+            <div class="testimonial-text">“It helped us create a smoother client journey without adding more pressure to the front desk. It felt more elevated almost immediately.”</div>
+            <div class="testimonial-author">— Aesthetic Practice Director</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section final-cta">
-      <div class="container">
+    <section class="section" id="book">
+      <div class="container cta-wrap">
         <div class="cta-panel">
           <h2>Book a private demo.</h2>
           <p>
-            A short walkthrough of how this could look for your med spa, your client journey,
+            A short walkthrough tailored to your med spa, your client journey,
             and your booking flow.
           </p>
-
+          <div class="cta-points">
+            <div>See how missed inquiries can turn into actual appointments.</div>
+            <div>Explore a premium booking experience that fits high-end and mid-market med spas.</div>
+            <div>Understand how to improve follow-up without adding extra front desk pressure.</div>
+          </div>
           <div class="cta-actions">
-            <a href="https://calendly.com/your-calendly-link" class="btn-primary" target="_blank" rel="noopener">
-              Book via Calendly
-            </a>
-            <a href="mailto:clientflowmedspa@gmail.com" class="btn-secondary">
-              Email to Request a Walkthrough
-            </a>
+            <a class="btn btn-primary" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener">Book via Calendly</a>
+            <a class="btn btn-secondary" href="mailto:clientflowmedspa@gmail.com">Email Instead</a>
           </div>
+          <div class="small-note">Prefer email? <a href="mailto:clientflowmedspa@gmail.com">clientflowmedspa@gmail.com</a></div>
+        </div>
 
-          <div class="small-note">
-            Prefer email? <a href="mailto:clientflowmedspa@gmail.com">clientflowmedspa@gmail.com</a>
-          </div>
+        <div class="form-card">
+          <h3>Request a private walkthrough</h3>
+          <p>Share your details and we’ll follow up with next steps shortly.</p>
+
+          <form id="demoForm">
+            <div class="field-row">
+              <label>
+                Full name
+                <input type="text" name="from_name" required placeholder="Your name" />
+              </label>
+              <label>
+                Business name
+                <input type="text" name="company" required placeholder="Your med spa" />
+              </label>
+            </div>
+
+            <div class="field-row">
+              <label>
+                Email address
+                <input type="email" name="reply_to" required placeholder="you@example.com" />
+              </label>
+              <label>
+                Phone number
+                <input type="tel" name="phone" required placeholder="(555) 555-5555" />
+              </label>
+            </div>
+
+            <label>
+              What would you like help improving?
+              <textarea name="message" placeholder="More bookings, fewer no-shows, reactivation, follow-up, or overall client flow."></textarea>
+            </label>
+
+            <button class="btn btn-primary" type="submit" id="submitBtn">Send Request</button>
+            <div id="formStatus" class="status" aria-live="polite"></div>
+          </form>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      ClientFlow Med Spa — a more polished path from inquiry to appointment.
-    </div>
+    <div class="container">ClientFlow Med Spa — a more polished path from inquiry to appointment.</div>
   </footer>
+
+  <script>
+    emailjs.init({ publicKey: 't_PbGBW1_sIsD_bcO' });
+
+    const form = document.getElementById('demoForm');
+    const statusEl = document.getElementById('formStatus');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const templateParams = {
+        from_name: data.from_name || '',
+        company: data.company || '',
+        phone: data.phone || '',
+        reply_to: data.reply_to || '',
+        email: data.reply_to || '',
+        message: data.message || '',
+        to_email: 'clientflowmedspa@gmail.com'
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      statusEl.className = 'status';
+      statusEl.textContent = 'Sending your request...';
+
+      try {
+        await Promise.all([
+          emailjs.send('service_tqi0gjg', 'template_eavbc4k', templateParams),
+          emailjs.send('service_tqi0gjg', 'template_ts4ddha', templateParams)
+        ]);
+
+        statusEl.className = 'status success';
+        statusEl.textContent = 'Your request has been sent. Please check your email for confirmation.';
+        form.reset();
+      } catch (error) {
+        console.error('EmailJS error:', error);
+        statusEl.className = 'status error';
+        statusEl.textContent = 'Something went wrong while sending your request. Please try again or email clientflowmedspa@gmail.com.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Request';
+      }
+    });
+  </script>
 </body>
 </html>
