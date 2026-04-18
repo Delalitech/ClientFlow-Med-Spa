@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClientFlow Med Spa</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fffdfb; color: #0B0B0B; }
+    .tag { font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: #a07828; font-weight: 500; }
+    .h1 { font-size: 48px; line-height: 1.15; font-family: Georgia, serif; font-weight: 400; }
+    .h2 { font-size: 36px; line-height: 1.2; font-family: Georgia, serif; font-weight: 400; }
+    .h3 { font-size: 20px; font-weight: 500; }
+    .body { font-size: 16px; line-height: 1.75; color: #444; }
+    .btn-gold { background: #C9A84C; color: #0B0B0B; border: none; padding: 14px 32px; border-radius: 100px; font-size: 14px; font-weight: 500; cursor: pointer; letter-spacing: 0.04em; transition: opacity 0.2s; }
+    .btn-gold:hover { opacity: 0.85; }
+    .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.35); padding: 14px 32px; border-radius: 100px; font-size: 14px; cursor: pointer; letter-spacing: 0.04em; transition: background 0.2s; }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+    .card { background: #fff; border: 0.5px solid #e8e2da; border-radius: 20px; padding: 32px; }
+    .card-dark { background: #0B0B0B; border: 0.5px solid rgba(201,168,76,0.25); border-radius: 20px; padding: 32px; color: #fff; }
+    .icon-wrap { width: 44px; height: 44px; background: #F5EDE6; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    nav { background: #0B0B0B; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(201,168,76,0.15); position: sticky; top: 0; z-index: 100; }
+    nav .logo { font-family: Georgia, serif; font-size: 18px; color: #fff; letter-spacing: 0.04em; }
+    nav .logo span { color: #C9A84C; }
+    nav .nav-links { display: flex; gap: 32px; }
+    nav .nav-links a { color: #aaa; font-size: 13px; text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+    nav .nav-links a:hover { color: #fff; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: #fffdfb; border-radius: 24px; padding: 48px 40px; max-width: 480px; width: 100%; position: relative; }
+    .modal-close { position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 22px; cursor: pointer; color: #aaa; line-height: 1; }
+    .modal-close:hover { color: #333; }
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 8px; font-weight: 500; }
+    .field input { width: 100%; padding: 13px 16px; border: 1px solid #e0d8cf; border-radius: 12px; font-size: 15px; background: #fff; color: #0B0B0B; outline: none; transition: border-color 0.2s; font-family: inherit; }
+    .field input:focus { border-color: #C9A84C; }
+    .field input::placeholder { color: #bbb; }
+    .success-state { display: none; text-align: center; padding: 20px 0; }
+    .success-icon { width: 56px; height: 56px; background: #F5EDE6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px; }
+    @media (max-width: 768px) {
+      .h1 { font-size: 32px; }
+      .h2 { font-size: 26px; }
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .solutions-grid { grid-template-columns: 1fr !important; }
+      .problems-grid { grid-template-columns: 1fr !important; }
+      .results-grid { grid-template-columns: 1fr !important; }
+      .steps-grid { grid-template-columns: 1fr !important; }
+      .stats-strip { gap: 24px !important; flex-wrap: wrap; }
+      nav .nav-links { display: none; }
+    }
+  </style>
+  <!-- Calendly popup CSS -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+  <style>
+    .demo-booking-section { padding: 80px 20px; background: #f9f6f3; }
+    .demo-booking-container { max-width: 900px; margin: 0 auto; text-align: center; }
+    .demo-badge { display: inline-block; margin-bottom: 16px; padding: 8px 20px; background: #0B0B0B; color: #C9A84C; border-radius: 999px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; }
+    .demo-booking-container h2 { margin: 0 0 16px; font-family: Georgia, serif; font-size: 38px; line-height: 1.2; color: #0B0B0B; font-weight: 400; }
+    .demo-subtext { max-width: 680px; margin: 0 auto 28px; font-size: 17px; line-height: 1.75; color: #555; font-family: Arial, sans-serif; }
+    .demo-benefits { list-style: none; padding: 0; margin: 0 0 36px; }
+    .demo-benefits li { margin: 10px 0; font-size: 16px; color: #333; font-family: Arial, sans-serif; }
+    .demo-benefits li::before { content: none; }
+    .demo-button { display: inline-block; padding: 16px 36px; background: #C9A84C; color: #0B0B0B; text-decoration: none; border-radius: 999px; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; transition: opacity 0.2s ease; }
+    .demo-button:hover { opacity: 0.85; }
+    @media (max-width: 768px) {
+      .demo-booking-section { padding: 56px 16px; }
+      .demo-booking-container h2 { font-size: 26px; }
+      .demo-subtext { font-size: 15px; }
+      .demo-benefits li { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Client<span>Flow</span> Med Spa</div>
+  <div class="nav-links">
+    <a href="#problem">The Problem</a>
+    <a href="#solution">Solutions</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#book-demo">Book Demo</a>
+  </div>
+  <a href="#book-demo" class="btn-gold" style="padding: 10px 22px; font-size: 13px; text-decoration: none;">Book My Free Demo</a>
+</nav>
+
+<!-- HERO -->
+<div style="background: #0B0B0B; color: #fff; padding: 0;">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 80px 40px 80px;">
+    <div class="hero-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+      <div>
+        <p class="tag" style="color: #C9A84C; margin-bottom: 16px;">ClientFlow Med Spa</p>
+        <h1 class="h1" style="color: #fff; margin-bottom: 20px;">Get More Med Spa<br>Bookings —<br>Automatically</h1>
+        <p class="body" style="color: #ccc; max-width: 480px; margin-bottom: 32px;">We help med spas convert more inquiries, reduce no-shows, and bring back past clients with elegant automation that supports your front desk.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn-gold">Book My Free Demo</button>
+          <button class="btn-outline">See How It Works</button>
+        </div>
+      </div>
+      <div style="background: rgba(255,255,255,0.97); border-radius: 24px; padding: 32px; border: 1px solid rgba(201,168,76,0.3);">
+        <div style="background: #F5EDE6; border-radius: 16px; padding: 24px;">
+          <p style="font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #888; margin-bottom: 16px;">What Med Spas Want</p>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 10px; color: #0B0B0B; font-size: 16px;"><span style="color: #C9A84C; font-size: 14px;">✓</span> More consultations booked</div>
+            <div style="display: flex; align-items: center; gap: 10px; color: #0B0B0B; font-size: 16px;"><span style="color: #C9A84C; font-size: 14px;">✓</span> Fewer no-shows</div>
+            <div style="display: flex; align-items: center; gap: 10px; color: #0B0B0B; font-size: 16px;"><span style="color: #C9A84C; font-size: 14px;">✓</span> More repeat clients</div>
+            <div style="display: flex; align-items: center; gap: 10px; color: #0B0B0B; font-size: 16px;"><span style="color: #C9A84C; font-size: 14px;">✓</span> Less manual follow-up</div>
+          </div>
+        </div>
+        <p style="font-size: 13px; color: #777; margin-top: 18px; line-height: 1.65;">ClientFlow gives your team a faster, more consistent way to capture leads and keep clients engaged.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 1px; background: linear-gradient(to right, transparent, rgba(201,168,76,0.4), transparent); margin: 0 40px;"></div>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip" style="display: flex; justify-content: center; gap: 60px; padding: 28px 40px; max-width: 1100px; margin: 0 auto;">
+    <div style="text-align: center;">
+      <p style="font-family: Georgia, serif; font-size: 28px; color: #C9A84C;">3×</p>
+      <p style="font-size: 12px; color: #999; margin-top: 4px;">More bookings</p>
+    </div>
+    <div style="width: 1px; background: rgba(255,255,255,0.1);"></div>
+    <div style="text-align: center;">
+      <p style="font-family: Georgia, serif; font-size: 28px; color: #C9A84C;">60%</p>
+      <p style="font-size: 12px; color: #999; margin-top: 4px;">Fewer no-shows</p>
+    </div>
+    <div style="width: 1px; background: rgba(255,255,255,0.1);"></div>
+    <div style="text-align: center;">
+      <p style="font-family: Georgia, serif; font-size: 28px; color: #C9A84C;">2×</p>
+      <p style="font-size: 12px; color: #999; margin-top: 4px;">Client retention</p>
+    </div>
+    <div style="width: 1px; background: rgba(255,255,255,0.1);"></div>
+    <div style="text-align: center;">
+      <p style="font-family: Georgia, serif; font-size: 28px; color: #C9A84C;">24/7</p>
+      <p style="font-size: 12px; color: #999; margin-top: 4px;">Automated follow-up</p>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<div id="problem" style="background: #fffdfb; padding: 80px 40px;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="text-align: center; max-width: 620px; margin: 0 auto 56px;">
+      <p class="tag" style="margin-bottom: 12px;">The Problem</p>
+      <h2 class="h2" style="margin-bottom: 16px;">Most med spas lose revenue in the follow-up gap</h2>
+      <p class="body">Great service alone doesn't guarantee bookings. Missed calls, inconsistent follow-up, and delayed reminders cost you thousands each month.</p>
+    </div>
+    <div class="problems-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="card" style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="width: 6px; height: 6px; background: #C9A84C; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+        <p class="body">Missed calls turn into lost bookings before your team even knows about them.</p>
+      </div>
+      <div class="card" style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="width: 6px; height: 6px; background: #C9A84C; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+        <p class="body">Leads stop responding when follow-up is delayed by even a few hours.</p>
+      </div>
+      <div class="card" style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="width: 6px; height: 6px; background: #C9A84C; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+        <p class="body">No-shows cost staff energy, block revenue, and disrupt your entire schedule.</p>
+      </div>
+      <div class="card" style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="width: 6px; height: 6px; background: #C9A84C; border-radius: 50%; margin-top: 8px; flex-shrink: 0;"></div>
+        <p class="body">Past clients quietly disappear when no one reaches out to bring them back.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOLUTION -->
+<div id="solution" style="background: #F8F3EE; padding: 80px 40px;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 520px; margin-bottom: 48px;">
+      <p class="tag" style="margin-bottom: 12px;">The Solution</p>
+      <h2 class="h2">A simple system that books more clients</h2>
+    </div>
+    <div class="solutions-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      <div class="card">
+        <div class="icon-wrap" style="margin-bottom: 20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a07828" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11 19.79 19.79 0 0 1 1.67 2.34 2 2 0 0 1 3.65.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 7.91a16 16 0 0 0 6.14 6.14l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Missed call text-back</h3>
+        <p class="body" style="font-size: 14px;">When a prospect calls and no one answers, they instantly receive a text so the lead is never lost.</p>
+      </div>
+      <div class="card">
+        <div class="icon-wrap" style="margin-bottom: 20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a07828" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Lead follow-up</h3>
+        <p class="body" style="font-size: 14px;">Every new inquiry gets timely follow-up messages designed to move them toward booking.</p>
+      </div>
+      <div class="card">
+        <div class="icon-wrap" style="margin-bottom: 20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a07828" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Appointment reminders</h3>
+        <p class="body" style="font-size: 14px;">Automatic reminders help reduce no-shows and keep your schedule more predictable.</p>
+      </div>
+      <div class="card">
+        <div class="icon-wrap" style="margin-bottom: 20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a07828" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Rebooking campaigns</h3>
+        <p class="body" style="font-size: 14px;">Past clients receive thoughtful messages that bring them back in for return visits.</p>
+      </div>
+      <div class="card">
+        <div class="icon-wrap" style="margin-bottom: 20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a07828" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Review requests</h3>
+        <p class="body" style="font-size: 14px;">Happy clients are guided toward leaving reviews that build trust and attract more bookings.</p>
+      </div>
+      <div class="card">
+        <div class="icon-wrap" style="margin-bottom: 20px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a07828" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Polished experience</h3>
+        <p class="body" style="font-size: 14px;">Every touchpoint feels smooth, on-brand, and reflective of the luxury your clients expect.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div style="background: #fffdfb; padding: 80px 40px;">
+  <div class="results-grid" style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+    <div>
+      <p class="tag" style="margin-bottom: 12px;">Results</p>
+      <h2 class="h2" style="margin-bottom: 16px;">What this helps your med spa achieve</h2>
+      <p class="body">ClientFlow is designed around the outcomes med spa owners care about most: consistent follow-up, fewer dropped leads, better attendance, and stronger repeat business.</p>
+    </div>
+    <div class="card-dark">
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: center; gap: 14px; font-size: 16px;"><span style="color: #C9A84C; font-size: 10px;">◆</span> More booked consultations</div>
+        <div style="height: 0.5px; background: rgba(255,255,255,0.08);"></div>
+        <div style="display: flex; align-items: center; gap: 14px; font-size: 16px;"><span style="color: #C9A84C; font-size: 10px;">◆</span> Fewer missed opportunities</div>
+        <div style="height: 0.5px; background: rgba(255,255,255,0.08);"></div>
+        <div style="display: flex; align-items: center; gap: 14px; font-size: 16px;"><span style="color: #C9A84C; font-size: 10px;">◆</span> Lower no-show rates</div>
+        <div style="height: 0.5px; background: rgba(255,255,255,0.08);"></div>
+        <div style="display: flex; align-items: center; gap: 14px; font-size: 16px;"><span style="color: #C9A84C; font-size: 10px;">◆</span> Stronger client retention</div>
+        <div style="height: 0.5px; background: rgba(255,255,255,0.08);"></div>
+        <div style="display: flex; align-items: center; gap: 14px; font-size: 16px;"><span style="color: #C9A84C; font-size: 10px;">◆</span> More repeat revenue</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="how-it-works" style="background: #fff; padding: 80px 40px;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 56px;">
+      <p class="tag" style="margin-bottom: 12px;">How It Works</p>
+      <h2 class="h2">Three steps to more revenue</h2>
+    </div>
+    <div class="steps-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; position: relative;">
+      <div style="position: absolute; top: 36px; left: 33.3%; right: 33.3%; height: 1px; background: #e8e2da; z-index: 0;"></div>
+      <div style="text-align: center; padding: 0 32px; position: relative; z-index: 1;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; border: 1px solid #C9A84C; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; background: #fff;">
+          <span style="font-family: Georgia, serif; font-size: 24px; color: #C9A84C;">1</span>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Lead comes in</h3>
+        <p class="body" style="font-size: 14px;">A prospect calls, fills a form, or messages your med spa through any channel.</p>
+      </div>
+      <div style="text-align: center; padding: 0 32px; position: relative; z-index: 1;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; border: 1px solid #C9A84C; background: #C9A84C; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+          <span style="font-family: Georgia, serif; font-size: 24px; color: #fff;">2</span>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">ClientFlow responds</h3>
+        <p class="body" style="font-size: 14px;">They get an immediate text and a polished follow-up sequence on your behalf.</p>
+      </div>
+      <div style="text-align: center; padding: 0 32px; position: relative; z-index: 1;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; border: 1px solid #C9A84C; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; background: #fff;">
+          <span style="font-family: Georgia, serif; font-size: 24px; color: #C9A84C;">3</span>
+        </div>
+        <h3 class="h3" style="margin-bottom: 10px;">Booking happens</h3>
+        <p class="body" style="font-size: 14px;">The client is guided toward booking, showing up, and returning again and again.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO BOOKING SECTION -->
+<section id="book-demo" class="demo-booking-section">
+  <div class="demo-booking-container">
+    <span class="demo-badge">Book Your Free Demo</span>
+    <h2>See How ClientFlow Can Help You Increase Bookings</h2>
+    <p class="demo-subtext">
+      Choose a time that works for you. In this quick demo, we'll show you how
+      ClientFlow helps med spas recover lost leads, increase repeat bookings,
+      and reduce front desk follow-up work.
+    </p>
+    <ul class="demo-benefits">
+      <li>&#9670; See how missed inquiries can turn into booked appointments</li>
+      <li>&#9670; Learn how to bring past clients back automatically</li>
+      <li>&#9670; Get a quick walkthrough tailored to your med spa</li>
+    </ul>
+    <!-- Calendly inline embed -->
+    <div class="calendly-inline-widget"
+      data-url="https://calendly.com/clientflowmedspa?hide_gdpr_banner=1&primary_color=c9a84c"
+      style="min-width:320px;height:700px;margin-top:32px;border-radius:16px;overflow:hidden;">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div style="background: #0B0B0B; border-top: 1px solid rgba(255,255,255,0.06); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <p style="font-family: Georgia, serif; font-size: 15px; color: #fff;">Client<span style="color: #C9A84C;">Flow</span> Med Spa</p>
+  <p style="font-size: 12px; color: #555;">&copy; 2026 ClientFlow Med Spa. All rights reserved.</p>
+</div>
+
+<!-- BOOKING MODAL -->
+<!-- ⚠️ EmailJS setup: replace the three placeholders below with your values from emailjs.com -->
+<!-- YOUR_PUBLIC_KEY   → Account > API Keys > Public Key -->
+<!-- YOUR_SERVICE_ID   → Email Services > your service ID -->
+<!-- YOUR_TEMPLATE_ID  → Email Templates > your template ID -->
+<!-- Template variables to use in EmailJS: {{from_name}}, {{phone}}, {{reply_to}} -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+
+    <div id="formState">
+      <p class="tag" style="margin-bottom: 10px;">Book My Free Demo</p>
+      <h2 style="font-family: Georgia, serif; font-size: 26px; font-weight: 400; margin-bottom: 6px;">Let's talk about your med spa</h2>
+      <p style="font-size: 14px; color: #888; margin-bottom: 28px; line-height: 1.6;">Fill in your details and we'll reach out within one business day to confirm your 30-minute demo.</p>
+
+      <form id="demoForm">
+        <div class="field">
+          <label for="fname">Full name</label>
+          <input type="text" id="fname" name="from_name" placeholder="Jane Smith" required />
+        </div>
+        <div class="field">
+          <label for="company">Med spa / company name</label>
+          <input type="text" id="company" name="company" placeholder="Luxe Med Spa" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" required />
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="reply_to" placeholder="jane@yourmedspa.com" required />
+        </div>
+        <button type="submit" class="btn-gold" id="submitBtn" style="width: 100%; padding: 15px; font-size: 15px; margin-top: 8px;">
+          Request My Demo
+        </button>
+        <p style="font-size: 11px; color: #bbb; text-align: center; margin-top: 14px; letter-spacing: 0.04em;">No commitment required · 30-minute call</p>
+        <p id="formError" style="display:none; color: #c0392b; font-size: 13px; text-align: center; margin-top: 10px;"></p>
+      </form>
+    </div>
+
+    <div class="success-state" id="successState">
+      <div class="success-icon">✦</div>
+      <h3 style="font-family: Georgia, serif; font-size: 22px; font-weight: 400; margin-bottom: 10px;">You're all set!</h3>
+      <p style="font-size: 14px; color: #777; line-height: 1.7; max-width: 320px; margin: 0 auto 28px;">A confirmation has been sent to your email. We'll follow up within one business day to confirm your demo.</p>
+      <button class="btn-gold" onclick="closeModal()" style="padding: 13px 32px;">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Calendly widget script -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // ⚠️ Replace the values below with your credentials from emailjs.com
+  var EMAILJS_PUBLIC_KEY           = 't_PbGBW1_sIsD_bcO';    // Account > API Keys
+  var EMAILJS_SERVICE_ID           = 'service_tqi0gjg';    // Email Services
+  var EMAILJS_TEMPLATE_CUSTOMER_ID = 'template_ts4ddha'; // confirmation → sent to the lead
+  var EMAILJS_TEMPLATE_BUSINESS_ID = 'template_eavbc4k'; // notification → sent to clientflowmedspa@gmail.com
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  function openModal() {
+    document.getElementById('bookingModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('bookingModal').classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(function() {
+      document.getElementById('formState').style.display = '';
+      document.getElementById('successState').style.display = 'none';
+      document.getElementById('demoForm').reset();
+      document.getElementById('formError').style.display = 'none';
+    }, 300);
+  }
+  document.getElementById('bookingModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  document.querySelectorAll('.btn-gold, .btn-outline').forEach(function(btn) {
+    var text = btn.textContent.trim().toLowerCase();
+    if (text.includes('demo') || text.includes('schedule')) {
+      if (btn.id !== 'submitBtn' && !btn.getAttribute('onclick')) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById('book-demo').scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+    }
+  });
+
+  document.getElementById('demoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('submitBtn');
+    var errEl = document.getElementById('formError');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    errEl.style.display = 'none';
+
+    var templateParams = {
+      from_name: document.getElementById('fname').value,
+      company:   document.getElementById('company').value,
+      phone:     document.getElementById('phone').value,
+      reply_to:  document.getElementById('email').value
+    };
+
+    // Send both emails in parallel — customer confirmation + business notification
+    Promise.all([
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER_ID, templateParams),
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_BUSINESS_ID, templateParams)
+    ])
+      .then(function() {
+        document.getElementById('formState').style.display = 'none';
+        document.getElementById('successState').style.display = 'block';
+      })
+      .catch(function(error) {
+        var msg = error.text || error.message || JSON.stringify(error) || 'please try again.';
+        errEl.textContent = 'Error ' + (error.status || '') + ': ' + msg;
+        errEl.style.display = 'block';
+        btn.textContent = 'Request My Demo';
+        btn.disabled = false;
+      });
+  });
+</script>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</body>
+</html>
